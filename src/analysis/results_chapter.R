@@ -1,15 +1,7 @@
 ### Load libraries for data cleaning ###
-# WHEN HANDING IN THESIS CODE, MAKE SURE ALL PACKAGES LISTED BELOW ARE RELEVANT FOR THE CODE!
 library(tidyverse)
-library(readr)
-library(lubridate)
-library(stringr)
-library(zoo)
-library(janitor)
 library(car)
-library(anytime)
 library(fixest)
-library(broom)
 options(scipen=99999)
 
 # Read data

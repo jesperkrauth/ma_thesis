@@ -1,11 +1,5 @@
 ## Load libraries
 library(tidyverse)
-library(readr)
-library(lubridate)
-library(zoo)
-library(tokenizers)
-library(ggplot2)
-library(scales)
 
 ## Figure 2: Star Power Distribution
 star_power <- read_csv('../../gen/data-preparation/output/star_power.csv')
