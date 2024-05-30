@@ -31,16 +31,16 @@ lm2 <- lm(log(gross_box_office) ~ log(lag_cum_tweets) + log(lag_pos_neg_ratio) +
 summary(lm2)
 vif(lm2)
 
-# MODEL 3: CLUSTER STANDARD ERRORS
+# MODEL 3: CLUSTER STANDARD ERRORS + FIXED EFFECTS
 lm3 <- feols(log(gross_box_office) ~ log(lag_cum_tweets) + log(lag_pos_neg_ratio) + pre_release_volume + pre_pos_neg_ratio + lag_cumadspend + star_power + production_budget_monetary + metascore | week_number + weeks_since_release,
              cluster = ~ movie_id,
              data = lmdata)
 summary(lm3)
 
 
-
-# SPLIT OUT IN GENRES
+## Analysis split per genre
 genre_split_data <- lmdata
+
 # Group genres
 genre_split_data$genre[genre_split_data$genre == "Comedy / Drama"] <- "Comedy" 
 genre_split_data$genre[genre_split_data$genre == "Action"] <- "Action / Adventure" 
@@ -58,7 +58,7 @@ genre_split_data$genre[genre_split_data$genre == "Period Action"] <- "Action / A
 genre_split_data$genre[genre_split_data$genre == "Romantic Comedy"] <- "Comedy" 
 genre_split_data$genre[genre_split_data$genre == "Western Comedy"] <- "Comedy" 
 
-# Get genres
+# Get datasets for regression
 genre_split_data <- genre_split_data %>% filter(genre == "Comedy" | genre == "Drama" | genre == "Action / Adventure" | genre == "Thriller" | genre == "Animation" | genre == "Horror")
 comedy <- genre_split_data %>% filter(genre == "Comedy")
 drama <- genre_split_data %>% filter(genre == "Drama")
@@ -67,7 +67,7 @@ thriller <- genre_split_data %>% filter(genre == "Thriller")
 animation <- genre_split_data %>% filter(genre == "Animation")
 horror <- genre_split_data %>% filter(genre == "Horror")
 
-# Comedy reg
+# Regressions per genre
 lm_comedy <- feols(log(gross_box_office) ~ log(lag_cum_tweets) + log(lag_pos_neg_ratio) + pre_release_volume + pre_pos_neg_ratio + lag_cumadspend + star_power + production_budget_monetary + metascore | week_number + weeks_since_release,
              cluster = ~ movie_id,
              data = comedy)
@@ -101,7 +101,7 @@ summary(lm_horror)
 
 
 
-## FIGURE 5 BAR CHART WITH AVG BOX OFFICE FOR ALL 6 GENRES
+## Figure 5 bar chart with average box office for all 6 genres
 temp <- genre_split_data %>% group_by(movie_id, genre, domestic_total_gross) %>% count() %>% group_by(genre) %>% mutate(mean_box_office = mean(domestic_total_gross)) %>% select(genre, mean_box_office) %>% distinct()
 figure5 <- ggplot(temp, aes(x = genre, y = mean_box_office/1000000)) + 
   geom_bar(stat = "identity", color = "black", fill = "orange2") + 

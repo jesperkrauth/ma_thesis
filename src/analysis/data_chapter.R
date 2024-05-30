@@ -42,7 +42,7 @@ summary(temp$metascore)
 sd(temp$metascore, na.rm = TRUE)
 
 
-# FIGURES 3&4 WITH BOTH AVG. GROSS BOX OFFICE & AVG. 
+# Figures 3 & 4
 figuredata <- complete %>% select(box_office, day_of_release, totaltweets, daily_pos_neg_ratio)
 meanboxoffice <- figuredata %>% group_by(day_of_release) %>% summarize(mean_box_office = mean(box_office))
 meanwomvolume <- figuredata %>% group_by(day_of_release) %>% summarize(mean_wom_volume = mean(totaltweets))

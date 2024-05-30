@@ -75,11 +75,11 @@ for source in source_code: # Iterate through each line
     
     # Wait until actor/actress section has loaded
     while True:
-        try:
+        try: # try to find actor/actress section within 20s
             WebDriverWait(driver, 20).until(EC.any_of(
                 EC.presence_of_element_located((By.CLASS_NAME, 'filmo-section-actor')),
                 EC.presence_of_element_located((By.CLASS_NAME, 'filmo-section-actress'))))
-        except:
+        except: # if not found failcount = 1
             print(f"ERROR: No actor/actress button found for actor {actorcounter} of {row_count}: {obj['actor']}, attempting to fix")
             failcount = 1
             break
@@ -95,18 +95,18 @@ for source in source_code: # Iterate through each line
             try:
                 driver.find_element(By.CSS_SELECTOR, "[id='name-filmography-filter-actor']").click() # Click actor button
             except:
-                driver.find_element(By.CLASS_NAME, 'ipc-chip-list__arrow--right').click()
+                driver.find_element(By.CLASS_NAME, 'ipc-chip-list__arrow--right').click() # Move further in horizontal list
                 time.sleep(1)
                 driver.find_element(By.CSS_SELECTOR, "[id='name-filmography-filter-actor']").click() # Click actor button
-            WebDriverWait(driver, 20).until(EC.any_of(
+            WebDriverWait(driver, 20).until(EC.any_of( # wait until actor/actress class has loaded
                 EC.presence_of_element_located((By.CLASS_NAME, 'filmo-section-actor')),
                 EC.presence_of_element_located((By.CLASS_NAME, 'filmo-section-actress'))))
-            # SCROLL TO EXPAND/COLLAPSE BUTTON
+            # Scroll to expand/collapse button
             element = driver.find_element(By.CSS_SELECTOR, "[data-testid='nm-flmg-all-accordion-expander']")
             actions = ActionChains(driver)
             actions.move_to_element(element).perform()
             time.sleep(1)
-            # CLICK EXPAND AND COLLAPSE TWO TIMES
+            # Click collapse and then expand
             driver.find_element(By.CSS_SELECTOR, "[data-testid='nm-flmg-all-accordion-expander']").click()
             time.sleep(3)
             driver.find_element(By.CSS_SELECTOR, "[data-testid='nm-flmg-all-accordion-expander']").click()
@@ -114,18 +114,18 @@ for source in source_code: # Iterate through each line
             try:
                 driver.find_element(By.CSS_SELECTOR, "[id='name-filmography-filter-actress']").click()
             except:
-                driver.find_element(By.CLASS_NAME, 'ipc-chip-list__arrow--right').click()
+                driver.find_element(By.CLASS_NAME, 'ipc-chip-list__arrow--right').click() # Move further in horizontal list
                 time.sleep(1)
                 driver.find_element(By.CSS_SELECTOR, "[id='name-filmography-filter-actress']").click()
-            WebDriverWait(driver, 20).until(EC.any_of(
+            WebDriverWait(driver, 20).until(EC.any_of( # wait until actor/actress class has loaded
                 EC.presence_of_element_located((By.CLASS_NAME, 'filmo-section-actor')),
                 EC.presence_of_element_located((By.CLASS_NAME, 'filmo-section-actress'))))
-            # SCROLL TO EXPAND/COLLAPSE BUTTON
+            # Scroll to expand/collapse button
             element = driver.find_element(By.CSS_SELECTOR, "[data-testid='nm-flmg-all-accordion-expander']")
             actions = ActionChains(driver)
             actions.move_to_element(element).perform()
             time.sleep(1)
-            # CLICK EXPAND AND COLLAPSE TWO TIMES
+            # Click collapse and then expand
             driver.find_element(By.CSS_SELECTOR, "[data-testid='nm-flmg-all-accordion-expander']").click()
             time.sleep(3)
             driver.find_element(By.CSS_SELECTOR, "[data-testid='nm-flmg-all-accordion-expander']").click()
